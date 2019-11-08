@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Searching</title>
+  <style>
+    .container {
+      text-align: center;
+    }
+    .textarea {
+      max-height: 100px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <input type="text" name="searching" id="searching" onkeyup="debounceTime(this.value)">
+    <hr>
+    <span id="searching-txt"></span>
+    <hr>
+    <textarea class="textarea">
+      tatatatataat
+      ayaaahha
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+      adddddddddddddd
+    </textarea>
+    <hr>
+  </div>
+
+
+  <script type="text/javascript">
+    let counter = 0;
+    const getData = (restArg) => {
+      console.log('Fetching Data......',counter++,restArg)
+      document.getElementById("searching-txt").innerHTML = restArg + ' ===== ' + counter;
+    }
+    const magicSearch = function(fn,d){
+      let timer;
+      return function() {
+        let context = this;
+        clearTimeout(timer);
+        timer = setTimeout(()=>{
+          fn.apply(context, arguments)
+        },d);
+      }
+    }
+    const debounceTime = magicSearch(getData, 500);
+  </script>
+
+</body>
+
+</html>

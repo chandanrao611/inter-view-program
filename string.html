@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>String</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    let str = 'abcD';
+    let strArr = str.split('');
+    console.log(strArr)
+    strArr.forEach((v, i, a) => {
+      let valCode = parseInt(v.charCodeAt());
+      var res = String.fromCharCode(valCode + 2);
+      console.log(valCode, res);
+    });
+
+    let numArr = '0000001110001101';
+    let nArr = numArr.split('');
+    let numObj = {};
+    nArr.forEach((v, i, a) => {
+      return numObj[v] = (numObj[v] || 0) + 1
+    });
+    console.log(numObj);
+
+  </script>
+</body>
+
+</html>

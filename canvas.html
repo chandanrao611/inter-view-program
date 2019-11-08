@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Tutorial</title>
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 17px;
+      grid-auto-rows: minmax(342px, auto);
+    }
+
+    .circle_progess,
+    .inline_progess {
+      box-shadow: 0px 2px 5px 3px rgba(232, 232, 232, 0.9);
+      -webkit-box-shadow: 0px 2px 5px 3px rgba(232, 232, 232, 0.9);
+      -moz-box-shadow: 0px 2px 5px 3px rgba(232, 232, 232, 0.9);
+      border-radius: 8px;
+      background: #fff;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .tooltip {}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="circle_progess"><canvas id="myCanvas" width="500" height="200"></canvas></div>
+    <div class="inline_progess">
+      <canvas id="inlineCanvas" width="500" height="200"></canvas>
+    </div>
+    <div class="inline_progess">
+      
+<div id="strategyGraph" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+    </div>
+  </div>
+
+
+  <script>
+
+window.onload = function () {
+  var chart = new CanvasJS.Chart("strategyGraph", {
+  title:{
+    text: ""
+  },
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    itemclick: toggleDataSeries
+  },
+  data: [{
+    type: "line",
+    name: "Footfall",
+    color: "#369EAD",
+    showInLegend: true,
+    axisYIndex: 1,
+    dataPoints: [
+      { x: new Date(2017, 00, 7), y: 85.4 }, 
+      { x: new Date(2017, 00, 14), y: 92.7 },
+      { x: new Date(2017, 00, 21), y: 64.9 },
+      { x: new Date(2017, 00, 28), y: 58.0 },
+      { x: new Date(2017, 01, 4), y: 63.4 },
+      { x: new Date(2017, 01, 11), y: 69.9 },
+      { x: new Date(2017, 01, 18), y: 88.9 },
+      { x: new Date(2017, 01, 25), y: 66.3 },
+      { x: new Date(2017, 02, 4), y: 82.7 },
+      { x: new Date(2017, 02, 11), y: 60.2 },
+      { x: new Date(2017, 02, 18), y: 87.3 },
+      { x: new Date(2017, 02, 25), y: 98.5 }
+    ]
+  },
+  {
+    type: "line",
+    name: "Revenue",
+    color: "#7F6084",
+    axisYType: "secondary",
+    showInLegend: true,
+    dataPoints: [
+      { x: new Date(2017, 00, 7), y: 42.5 }, 
+      { x: new Date(2017, 00, 14), y: 44.3 },
+      { x: new Date(2017, 00, 21), y: 28.7 },
+      { x: new Date(2017, 00, 28), y: 22.5 },
+      { x: new Date(2017, 01, 4), y: 25.6 },
+      { x: new Date(2017, 01, 11), y: 45.7 },
+      { x: new Date(2017, 01, 18), y: 54.6 },
+      { x: new Date(2017, 01, 25), y: 32.0 },
+      { x: new Date(2017, 02, 4), y: 43.9 },
+      { x: new Date(2017, 02, 11), y: 26.4 },
+      { x: new Date(2017, 02, 18), y: 40.3 },
+      { x: new Date(2017, 02, 25), y: 54.2 }
+    ]
+  }]
+});
+chart.render();
+
+function toggleDataSeries(e) {
+  if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  } else {
+    e.dataSeries.visible = true;
+  }
+  e.chart.render();
+}
+
+}
+
+// <!-- ============================================================================= -->
+    var canvasLINE = document.getElementById('inlineCanvas');
+    var contextLINE = canvasLINE.getContext('2d');
+    var alLINE = 0;
+    var startLINE = 4.72;
+    var cwLINE = contextLINE.canvas.width / 2;
+    var chLINE = contextLINE.canvas.height / 2;
+    var diffLINE;
+
+    function progressBarLINE() {
+      diffLINE = (alLINE / 100) * Math.PI * 2;
+      contextLINE.clearRect(0, 0, 400, 200);
+      contextLINE.beginPath();
+      contextLINE.arc(cwLINE, chLINE, 50, 0, 2 * Math.PI, false);
+      contextLINE.fillStyle = '#FFF';
+      contextLINE.fill();
+      contextLINE.strokeStyle = '#e7f2ba';
+      contextLINE.stroke();
+      contextLINE.fillStyle = '#000';
+      contextLINE.strokeStyle = '#b3cf3c';
+      contextLINE.textAlign = 'center';
+      contextLINE.lineWidth = 15;
+      contextLINE.font = '10pt Verdana';
+      contextLINE.beginPath();
+      contextLINE.arc(cwLINE, chLINE, 50, startLINE, diffLINE + startLINE, false);
+      contextLINE.stroke();
+      contextLINE.fillText(alLINE + '%', cwLINE + 2, chLINE + 6);
+      if (alLINE >= 78) {
+        clearTimeout(barLINE);
+      }
+
+      alLINE++;
+    }
+
+    var barLINE = setInterval(progressBarLINE, 50);
+    // ======================================
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var al = 0;
+    var start = 4.72;
+    var cw = context.canvas.width / 2;
+    var ch = context.canvas.height / 2;
+    var diff;
+
+    function progressBar() {
+      diff = (al / 100) * Math.PI * 2;
+      context.clearRect(0, 0, 400, 200);
+      context.beginPath();
+      context.arc(cw, ch, 50, 0, 2 * Math.PI, false);
+      context.fillStyle = '#FFF';
+      context.fill();
+      context.strokeStyle = '#e7f2ba';
+      context.stroke();
+      context.fillStyle = '#000';
+      context.strokeStyle = '#b3cf3c';
+      context.textAlign = 'center';
+      context.lineWidth = 15;
+      context.font = '10pt Verdana';
+      context.beginPath();
+      context.arc(cw, ch, 50, start, diff + start, false);
+      context.stroke();
+      context.fillText(al + '%', cw + 2, ch + 6);
+      if (al >= 10) {
+        clearTimeout(bar);
+      }
+
+      al++;
+    }
+
+    var bar = setInterval(progressBar, 50);
+  </script>
+
+</body>
+
+</html>
